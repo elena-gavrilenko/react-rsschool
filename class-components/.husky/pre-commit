@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+
+
+cd "D:\Lenka\RS-school react 2025\react-rsschool\class-components" || exit 1
+npm test
