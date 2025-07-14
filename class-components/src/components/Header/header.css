@@ -1,0 +1,25 @@
+.header{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+}
+.header__titleGroup{
+  display: flex;
+}
+.header__logo{
+  width: 20%;
+}
+.header__logo>img{
+  width: 100%;
+}
+.header__title{
+  width: 80%;
+}
+.header__searchGroup{
+  display: flex;
+  gap: 30px;
+}
+.header__button{
+  width: 30%;
+}
