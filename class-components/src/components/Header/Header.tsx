@@ -2,15 +2,45 @@ import React, { Component } from 'react';
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Button/Button';
 import './header.css';
-import type { HeaderState } from '../../types/types';
+import type { CatImage, HeaderProps, HeaderState } from '../../types/types';
+import { API_KEY, CATS_URL } from '../constants/constants';
 
-export class Header extends Component<{}, HeaderState> {
-  constructor(props: {}) {
+export class Header extends Component<HeaderProps, HeaderState> {
+  private apiKey = API_KEY;
+  constructor(props: HeaderProps) {
     super(props);
     this.state = {
-      searchQuery: localStorage.getItem('searchQuery') || '',
+      loading: false,
     };
   }
+  fetchCats = () => {
+    this.setState({ loading: true });
+    const searchQuery = localStorage.getItem('searchQuery') || '';
+    let apiUrl = `${CATS_URL}limit=10&has_breeds=1`;
+
+    if (searchQuery.trim()) {
+      apiUrl += `&breed_ids=${searchQuery.trim()}`;
+    }
+    fetch(apiUrl, {
+      headers: {
+        'x-api-key': this.apiKey,
+      },
+    })
+      .then((response) => response.json())
+      .then((data: CatImage[]) => {
+        console.log(data);
+        if (this.props.onCatsLoaded) {
+          this.props.onCatsLoaded(data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching cats:', error);
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+      });
+  };
+
   render() {
     return (
       <>
@@ -22,8 +52,18 @@ export class Header extends Component<{}, HeaderState> {
             <h1 className="header__title">Cats</h1>
           </div>
           <div className="header__searchGroup">
-            <Input className="header__input"></Input>
-            <Button className="header__button">Search</Button>
+            <Input
+              className="header__input"
+              search
+              placeholder="Enter breed ID (e.g. beng)"
+            ></Input>
+            <Button
+              className="header__button"
+              onClick={this.fetchCats}
+              disabled={this.state.loading}
+            >
+              {this.state.loading ? 'Loading...' : 'Search'}
+            </Button>
           </div>
         </header>
       </>

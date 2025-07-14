@@ -6,9 +6,9 @@ import type { CardListProps } from '../../types/types';
 export class CardList extends Component<CardListProps> {
   render() {
     const { cats } = this.props;
-
+    console.log(cats);
     return (
-      <div className="card-list">
+      <div className="cardList">
         {cats.map((cat) => (
           <Card key={cat.id} cat={cat} />
         ))}

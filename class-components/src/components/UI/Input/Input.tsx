@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
-import type { InputProps } from '../../../types/types';
+import type { InputProps, InputState } from '../../../types/types';
 import './input.css';
 
-export class Input extends Component<InputProps> {
+export class Input extends Component<InputProps, InputState> {
   static defaultProps = {
     className: '',
     error: false,
     search: false,
   };
+  constructor(props: InputProps) {
+    super(props);
+    this.state = {
+      value:
+        localStorage.getItem('searchQuery') || props.value?.toString() || '',
+    };
+  }
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    this.setState({ value });
+    if (this.props.onChange) this.props.onChange(e);
+    if (this.props.onSearch) this.props.onSearch(value);
+    localStorage.setItem('searchQuery', value);
+  };
   render() {
-    const {
-      className,
-      error,
-      label,
-      errorMessage,
-      search,
-      onChange,
-      onSearch,
-      ...props
-    } = this.props;
+    const { className, error, label, errorMessage, search, ...props } =
+      this.props;
     const inputClass = `input ${error ? 'input__error' : ''} ${
       search ? 'input__search' : ''
     } ${className}`.trim();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (onChange) onChange(e);
-      if (onSearch) onSearch(e.target.value);
-    };
     return (
       <div className="input__wrapper">
         {label && (
@@ -34,7 +36,8 @@ export class Input extends Component<InputProps> {
             {label}
             <input
               className={inputClass || undefined}
-              onChange={handleChange}
+              onChange={this.handleChange}
+              value={this.state.value}
               {...props}
             />
           </label>
@@ -42,7 +45,8 @@ export class Input extends Component<InputProps> {
         {!label && (
           <input
             className={inputClass || undefined}
-            onChange={handleChange}
+            onChange={this.handleChange}
+            value={this.state.value}
             {...props}
           />
         )}
