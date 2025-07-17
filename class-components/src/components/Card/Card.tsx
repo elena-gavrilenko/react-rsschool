@@ -11,7 +11,9 @@ export class Card extends Component<CardProps> {
     return (
       <>
         <div className="card">
-          <img src={cat.url} alt={name || 'Cat'} className="card__image" />
+          <div className="card__image">
+            <img src={cat.url} alt={name || 'Cat'} />
+          </div>
           <div className="card__content">
             <h3 className="card__title">{name || 'Unknown Breed'}</h3>
             <p className="card__description">
