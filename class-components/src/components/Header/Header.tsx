@@ -16,7 +16,8 @@ export class Header extends Component<HeaderProps, HeaderState> {
   fetchCats = () => {
     this.setState({ loading: true });
     const searchQuery = localStorage.getItem('searchQuery') || '';
-    let apiUrl = `${CATS_URL}limit=10&has_breeds=1`;
+    const limit = searchQuery.trim() ? 1 : 10;
+    let apiUrl = `${CATS_URL}limit=${limit}&has_breeds=1`;
 
     if (searchQuery.trim()) {
       apiUrl += `&breed_ids=${searchQuery.trim()}`;
