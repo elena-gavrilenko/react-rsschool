@@ -31,7 +31,7 @@ describe('Card Component', () => {
       url: 'https://example.com/cat2.jpg',
       width: 500,
       height: 500,
-      breeds: [], // Пустой массив breeds
+      breeds: [],
     };
     render(<Card cat={catWithoutBreed} />);
 
