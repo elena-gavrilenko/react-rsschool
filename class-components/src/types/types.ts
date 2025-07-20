@@ -30,7 +30,7 @@ export type CatImage = {
   url: string;
   width: number;
   height: number;
-  breeds: CatBreed[];
+  breeds?: CatBreed[];
 };
 export type HeaderProps = {
   onCatsLoaded: (cats: CatImage[]) => void;
