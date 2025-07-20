@@ -7,12 +7,16 @@ describe('CardList Component', () => {
     {
       id: '1',
       url: 'https://example.com/cat1.jpg',
-      breeds: [{ name: 'Bengal' }],
+      width: 500,
+      height: 500,
+      breeds: [{ id: 'beng', name: 'Bengal', description: 'Playful breed' }],
     },
     {
       id: '2',
       url: 'https://example.com/cat2.jpg',
-      breeds: [{ name: 'Siamese' }],
+      width: 500,
+      height: 500,
+      breeds: [{ id: 'siam', name: 'Siamese', description: 'Vocal breed' }],
     },
   ];
 

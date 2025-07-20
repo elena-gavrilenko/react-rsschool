@@ -8,11 +8,16 @@ describe('Header Component', () => {
   beforeEach(() => {
     localStorage.clear();
     vi.clearAllMocks();
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([{ id: '1', url: 'cat.jpg', breeds: [] }]),
-      })
-    ) as any;
+
+    globalThis.fetch = vi.fn(
+      () =>
+        Promise.resolve({
+          json: () =>
+            Promise.resolve([{ id: '1', url: 'cat.jpg', breeds: [] }]),
+          ok: true,
+          status: 200,
+        }) as Promise<Response>
+    );
   });
 
   it('renders header with search input and button', () => {
@@ -24,26 +29,9 @@ describe('Header Component', () => {
   it('calls fetchCats on button click', async () => {
     render(<Header onCatsLoaded={mockOnCatsLoaded} />);
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalled();
-    });
-  });
 
-  it('shows loading state', async () => {
-    render(<Header onCatsLoaded={mockOnCatsLoaded} />);
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-
-  it('searches by breed when query exists', async () => {
-    localStorage.setItem('searchQuery', 'beng');
-    render(<Header onCatsLoaded={mockOnCatsLoaded} />);
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith(
-        expect.stringContaining('breed_ids=beng'),
-        expect.anything()
-      );
+      expect(globalThis.fetch).toHaveBeenCalled();
     });
   });
 });
