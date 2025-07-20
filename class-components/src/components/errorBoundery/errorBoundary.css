@@ -1,0 +1,7 @@
+.errorBoundary{
+  padding: 20px;
+}
+.errorBoundary__title{
+  color:var(--error-color);
+  text-transform: uppercase;
+}

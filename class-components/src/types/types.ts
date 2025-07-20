@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ErrorInfo, ReactNode } from 'react';
 
 export type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
@@ -23,13 +23,6 @@ export type CatBreed = {
   id: string;
   name: string;
   description: string;
-  // temperament: string;
-  // origin: string;
-  // life_span: string;
-  // adaptability: number;
-  // affection_level: number;
-  // child_friendly: number;
-  // energy_level: number;
 };
 
 export type CatImage = {
@@ -57,4 +50,13 @@ export type AppState = {
 };
 export type MainProps = {
   cats: CatImage[];
+};
+export type ErrorBoundaryProps = {
+  children: ReactNode;
+};
+
+export type ErrorBoundaryState = {
+  hasError: boolean;
+  error?: Error;
+  errorInfo?: ErrorInfo;
 };

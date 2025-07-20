@@ -27,7 +27,7 @@
   
 }
 .card__title{
-
+  padding: 10px;
 }
 .card__description{
   text-align: left;
