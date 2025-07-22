@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import './App.css';
-import { Header } from './components/Header/Header';
-import { Main } from './components/Main/Main';
-import type { AppState, CatImage } from './types/types';
+import { Header } from '../Header/Header';
+import { Main } from '../Main/Main';
+import type { AppState, CatImage } from '../../types/types';
 
 class App extends Component<Record<string, never>, AppState> {
   constructor(props: Record<string, never>) {

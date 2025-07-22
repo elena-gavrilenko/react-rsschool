@@ -1,4 +1,3 @@
-// Main.test.tsx
 import { render, screen } from '@testing-library/react';
 import { Main } from './Main';
 import type { CatImage } from '../../types/types';
