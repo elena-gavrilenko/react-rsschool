@@ -20,7 +20,11 @@ export class ErrorBoundary extends Component<
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="errorBoundary">
+        <div
+          className="errorBoundary"
+          data-testid="error-boundary"
+          role="alert"
+        >
           <h2 className="errorBoundary__title">something went wrong!</h2>;
         </div>
       );
