@@ -4,6 +4,7 @@ import { Button } from '../UI/Button/Button';
 import './header.css';
 import type { CatImage, HeaderProps, HeaderState } from '../../types/types';
 import { API_KEY, CATS_URL } from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 export class Header extends Component<HeaderProps, HeaderState> {
   private apiKey = API_KEY;
@@ -51,6 +52,9 @@ export class Header extends Component<HeaderProps, HeaderState> {
               <img src="/images/simons_cat.gif" alt="" />
             </div>
             <h1 className="header__title">Cats</h1>
+            <Link className="header__aboutLink" to="/about">
+              About
+            </Link>
           </div>
           <div className="header__searchGroup">
             <Input
