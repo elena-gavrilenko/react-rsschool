@@ -1,28 +1,21 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import './App.css';
 import { Header } from '../Header/Header';
 import { Main } from '../Main/Main';
 import type { AppState, CatImage } from '../../types/types';
 
-class App extends Component<Record<string, never>, AppState> {
-  constructor(props: Record<string, never>) {
-    super(props);
-    this.state = {
-      cats: [],
-    };
-  }
-  handleCatsLoaded = (cats: CatImage[]) => {
-    this.setState({ cats });
+export const App = () => {
+  const [cats, setCats] = useState<AppState['cats']>([]);
+
+  const handleCatsLoaded = (newCats: CatImage[]) => {
+    setCats(newCats);
     console.log('Received cats:', cats);
   };
-  render() {
-    return (
-      <>
-        <Header onCatsLoaded={this.handleCatsLoaded} />
-        <Main cats={this.state.cats} />
-      </>
-    );
-  }
-}
 
-export default App;
+  return (
+    <>
+      <Header onCatsLoaded={handleCatsLoaded} />
+      <Main cats={cats} />
+    </>
+  );
+};
