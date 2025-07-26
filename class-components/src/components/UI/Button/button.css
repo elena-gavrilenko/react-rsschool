@@ -1,0 +1,15 @@
+.button {
+  width: 120px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: var(--secondary-color);
+  color: var(--txt-color);
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+}
+.button:focus {
+  outline: none; 
+}
+.button:hover {
+  background-color: var(--hover-color);
+}
