@@ -5,14 +5,15 @@ import './header.css';
 import type { CatImage, HeaderProps } from '../../types/types';
 import { API_KEY, CATS_URL } from '../constants/constants';
 import { Link } from 'react-router-dom';
+import { useSearchStorage } from '../../hooks/useSearchStorage';
 
 export const Header = ({ onCatsLoaded }: HeaderProps) => {
   const [loading, setLoading] = useState(false);
   const apiKey = API_KEY;
+  const { searchQuery, setSearchQuery } = useSearchStorage('searchQuery');
 
   const fetchCats = () => {
     setLoading(true);
-    const searchQuery = localStorage.getItem('searchQuery') || '';
     const limit = searchQuery.trim() ? 1 : 10;
     let apiUrl = `${CATS_URL}limit=${limit}&has_breeds=1`;
 
@@ -27,7 +28,6 @@ export const Header = ({ onCatsLoaded }: HeaderProps) => {
     })
       .then((response) => response.json())
       .then((data: CatImage[]) => {
-        console.log(data);
         onCatsLoaded?.(data);
       })
       .catch((error) => {
@@ -54,7 +54,9 @@ export const Header = ({ onCatsLoaded }: HeaderProps) => {
           className="header__input"
           search
           placeholder="Enter breed ID (e.g. beng)"
-          onSearch={(value) => localStorage.setItem('searchQuery', value)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onSearch={setSearchQuery}
         />
         <Button
           className="header__button"

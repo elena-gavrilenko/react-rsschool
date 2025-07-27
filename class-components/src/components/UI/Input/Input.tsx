@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import type { InputProps } from '../../../types/types';
 import './input.css';
 
@@ -6,36 +5,17 @@ export const Input = ({
   className = '',
   error = false,
   search = false,
-  value: propValue = '',
+  value = '',
   onChange,
   onSearch,
   label,
   errorMessage,
   ...props
 }: InputProps) => {
-  const [value, setValue] = useState(
-    localStorage.getItem('searchQuery') || propValue.toString()
-  );
-
-  // Синхронизация с внешними изменениями propValue
-  useEffect(() => {
-    if (propValue !== undefined && propValue.toString() !== value) {
-      setValue(propValue.toString());
-    }
-  }, [propValue]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValue(newValue);
-    localStorage.setItem('searchQuery', newValue);
-
-    // Вызываем оба обработчика, если они предоставлены
-    if (onChange) {
-      onChange(e);
-    }
-    if (onSearch) {
-      onSearch(newValue);
-    }
+    onChange?.(e);
+    onSearch?.(newValue);
   };
 
   const inputClass = `input ${error ? 'input__error' : ''} ${
@@ -67,10 +47,4 @@ export const Input = ({
       )}
     </div>
   );
-};
-
-Input.defaultProps = {
-  className: '',
-  error: false,
-  search: false,
 };
