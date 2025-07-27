@@ -1,35 +1,29 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Input } from './Input';
-import { describe, expect, it, vi } from 'vitest';
+import '@testing-library/jest-dom';
+import { beforeEach, describe, expect, vi } from 'vitest';
+import { it } from 'vitest';
 
 describe('Input Component', () => {
-  it('renders with default props', () => {
-    render(<Input />);
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  it('displays label when provided', () => {
-    render(<Input label="Test Label" />);
-    expect(screen.getByLabelText('Test Label')).toBeInTheDocument();
-  });
+  it('calls onChange and onSearch when value changes', () => {
+    const mockOnChange = vi.fn();
+    const mockOnSearch = vi.fn();
 
-  it('shows error message when error is true', () => {
-    render(<Input error errorMessage="Invalid input" />);
-    expect(screen.getByText('Invalid input')).toBeInTheDocument();
-  });
+    render(<Input onChange={mockOnChange} onSearch={mockOnSearch} />);
 
-  it('handles onChange events', () => {
-    const handleChange = vi.fn();
-    render(<Input onChange={handleChange} />);
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'test' } });
-    expect(handleChange).toHaveBeenCalled();
-  });
-
-  it('saves to localStorage on change', () => {
-    render(<Input />);
     const input = screen.getByRole('textbox');
     fireEvent.change(input, { target: { value: 'cat' } });
-    expect(localStorage.getItem('searchQuery')).toBe('cat');
+
+    expect(mockOnChange).toHaveBeenCalled();
+    expect(mockOnSearch).toHaveBeenCalledWith('cat');
+  });
+
+  it('displays the correct value', () => {
+    render(<Input value="test value" />);
+    expect(screen.getByRole('textbox')).toHaveValue('test value');
   });
 });

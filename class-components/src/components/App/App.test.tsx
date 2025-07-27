@@ -10,7 +10,7 @@ describe('App Component', () => {
         <App />
       </BrowserRouter>
     );
-    expect(screen.getByRole('banner')).toBeInTheDocument(); // Header
-    expect(screen.getByRole('main')).toBeInTheDocument(); // Main
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
   });
 });
