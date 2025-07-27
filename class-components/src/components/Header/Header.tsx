@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Button/Button';
 import './header.css';
@@ -6,7 +6,7 @@ import type { CatImage, HeaderProps } from '../../types/types';
 import { API_KEY, CATS_URL } from '../constants/constants';
 import { Link } from 'react-router-dom';
 
-export const Header: React.FC<HeaderProps> = ({ onCatsLoaded }) => {
+export const Header = ({ onCatsLoaded }: HeaderProps) => {
   const [loading, setLoading] = useState(false);
   const apiKey = API_KEY;
 
@@ -28,9 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onCatsLoaded }) => {
       .then((response) => response.json())
       .then((data: CatImage[]) => {
         console.log(data);
-        if (onCatsLoaded) {
-          onCatsLoaded(data);
-        }
+        onCatsLoaded?.(data);
       })
       .catch((error) => {
         console.error('Error fetching cats:', error);
@@ -56,6 +54,7 @@ export const Header: React.FC<HeaderProps> = ({ onCatsLoaded }) => {
           className="header__input"
           search
           placeholder="Enter breed ID (e.g. beng)"
+          onSearch={(value) => localStorage.setItem('searchQuery', value)}
         />
         <Button
           className="header__button"

@@ -1,59 +1,76 @@
-import React, { Component } from 'react';
-import type { InputProps, InputState } from '../../../types/types';
+import { useState, useEffect } from 'react';
+import type { InputProps } from '../../../types/types';
 import './input.css';
 
-export class Input extends Component<InputProps, InputState> {
-  static defaultProps = {
-    className: '',
-    error: false,
-    search: false,
-  };
-  constructor(props: InputProps) {
-    super(props);
-    this.state = {
-      value:
-        localStorage.getItem('searchQuery') || props.value?.toString() || '',
-    };
-  }
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    this.setState({ value });
-    if (this.props.onChange) this.props.onChange(e);
-    if (this.props.onSearch) this.props.onSearch(value);
-    localStorage.setItem('searchQuery', value);
-  };
-  render() {
-    const { className, error, label, errorMessage, search, ...props } =
-      this.props;
-    const inputClass = `input ${error ? 'input__error' : ''} ${
-      search ? 'input__search' : ''
-    } ${className}`.trim();
+export const Input = ({
+  className = '',
+  error = false,
+  search = false,
+  value: propValue = '',
+  onChange,
+  onSearch,
+  label,
+  errorMessage,
+  ...props
+}: InputProps) => {
+  const [value, setValue] = useState(
+    localStorage.getItem('searchQuery') || propValue.toString()
+  );
 
-    return (
-      <div className="input__wrapper">
-        {label && (
-          <label className="input__label">
-            {label}
-            <input
-              className={inputClass || undefined}
-              onChange={this.handleChange}
-              value={this.state.value}
-              {...props}
-            />
-          </label>
-        )}
-        {!label && (
+  // Синхронизация с внешними изменениями propValue
+  useEffect(() => {
+    if (propValue !== undefined && propValue.toString() !== value) {
+      setValue(propValue.toString());
+    }
+  }, [propValue]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    localStorage.setItem('searchQuery', newValue);
+
+    // Вызываем оба обработчика, если они предоставлены
+    if (onChange) {
+      onChange(e);
+    }
+    if (onSearch) {
+      onSearch(newValue);
+    }
+  };
+
+  const inputClass = `input ${error ? 'input__error' : ''} ${
+    search ? 'input__search' : ''
+  } ${className}`.trim();
+
+  return (
+    <div className="input__wrapper">
+      {label ? (
+        <label className="input__label">
+          {label}
           <input
             className={inputClass || undefined}
-            onChange={this.handleChange}
-            value={this.state.value}
+            onChange={handleChange}
+            value={value}
             {...props}
           />
-        )}
-        {error && errorMessage && (
-          <span className="input__errorMessage">{errorMessage}</span>
-        )}
-      </div>
-    );
-  }
-}
+        </label>
+      ) : (
+        <input
+          className={inputClass || undefined}
+          onChange={handleChange}
+          value={value}
+          {...props}
+        />
+      )}
+      {error && errorMessage && (
+        <span className="input__errorMessage">{errorMessage}</span>
+      )}
+    </div>
+  );
+};
+
+Input.defaultProps = {
+  className: '',
+  error: false,
+  search: false,
+};
