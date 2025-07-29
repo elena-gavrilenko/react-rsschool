@@ -33,7 +33,8 @@ export type CatImage = {
   breeds?: CatBreed[];
 };
 export type HeaderProps = {
-  onCatsLoaded: (cats: CatImage[]) => void;
+  isLoading?: boolean;
+  onSearchQueryChange: (query: string) => void;
 };
 export type HeaderState = {
   loading: boolean;
@@ -47,9 +48,14 @@ export type CardListProps = {
 
 export type AppState = {
   cats: CatImage[];
+  currentPage: number;
+  totalPages: number;
 };
 export type MainProps = {
   cats: CatImage[];
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
 export type ErrorBoundaryProps = {
   children: ReactNode;
@@ -59,4 +65,9 @@ export type ErrorBoundaryState = {
   hasError: boolean;
   error?: Error;
   errorInfo?: ErrorInfo;
+};
+export type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };

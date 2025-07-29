@@ -11,6 +11,7 @@ export const About = () => {
         <h2 className="about__title">About me</h2>
       </div>
       <div className="about__me">
+        <p>My name is Helen</p>
         <p>
           For a long time I worked as an economist. But, finding myself out of
           work, I realized that this specialty firstly: unclaimed, and secondly:
@@ -30,7 +31,7 @@ export const About = () => {
         </ol>
       </div>
       <div className="about__rss">
-        <a href="https://rs.school/">
+        <a href="https://rs.school/courses/reactjs">
           <img
             className="about__rssLogo"
             src="/logoRss.svg"
