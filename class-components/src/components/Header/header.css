@@ -19,6 +19,7 @@
 }
 .header__title{
   width: 80%;
+  text-align: center;
 }
 .header__searchGroup{
   display: flex;
