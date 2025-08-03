@@ -23,6 +23,10 @@ export type CatBreed = {
   id: string;
   name: string;
   description: string;
+  child_friendly?: number;
+  dog_friendly?: number;
+  energy_level?: number;
+  intelligence?: number;
 };
 
 export type CatImage = {
@@ -41,6 +45,12 @@ export type HeaderState = {
 };
 export type CardProps = {
   cat: CatImage;
+  isExpanded?: boolean;
+  onClick?: () => void;
+};
+export type CardDetailsProps = {
+  cat: CatImage;
+  onClose: () => void;
 };
 export type CardListProps = {
   cats: CatImage[];

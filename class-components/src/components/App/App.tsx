@@ -26,6 +26,7 @@ export const App = () => {
       });
 
       const data = await response.json();
+      console.log(data);
       const totalCount = parseInt(
         response.headers.get('pagination-count') || '0',
         10
